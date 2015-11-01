@@ -5,6 +5,7 @@ class EncryptionsController < ApplicationController
 
 	def create
 		@encryption = Encryption.new(encryption_params)
+		@object = @encryption
 		upper_case = []
 		(65..90).each do |i|
 			upper_case.push(i)
@@ -19,19 +20,23 @@ class EncryptionsController < ApplicationController
 		keystream.each do |k|
 			keystream_list.push(k.unpack("C*"))
 		end
-		sum = Matrix.rows(message_list) + Matrix.rows(keystream_list)
-		letters = sum.map{|i|
-			if upper_case.include?(i)
-				i
-			else 
-				((i-129)%26) + 65
+		if keystream_list.length != message_list.length
+			flash.now[:danger] = "Message and Keystream must contain the same number of letters"
+		else
+			sum = Matrix.rows(message_list) + Matrix.rows(keystream_list)
+			letters = sum.map{|i|
+				if upper_case.include?(i)
+					i
+				else 
+					((i-129)%26) + 65
+				end
+			}
+			code = []
+			for j in 0..(letters.to_a.length - 1)
+				code.push(letters.to_a[j].pack("C*"))
 			end
-		}
-		code = []
-		for j in 0..(letters.to_a.length - 1)
-			code.push(letters.to_a[j].pack("C*"))
+			@code = code.to_s.gsub(/[^(\w\s)]/, '')
 		end
-		@code = code.to_s.gsub(/[^(\w\s)]/, '')
 		if @encryption.save
 			render 'index'
 		else

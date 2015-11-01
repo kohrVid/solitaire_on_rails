@@ -1,5 +1,6 @@
 <div class = "wrapper">
 	<div class = "col-md-6">
+		<%= render 'layouts/alerts' %>
 		<%= form_for :encryption, :url => {:action => "create", :id => @encryption, :protocol => "https"} do |f| %>
 			<table>
 				<tr>
