@@ -31,7 +31,7 @@ class EncryptionsController < ApplicationController
 		for j in 0..(letters.to_a.length - 1)
 			code.push(letters.to_a[j].pack("C*"))
 		end
-		@code = code
+		@code = code.to_s.gsub(/[^(\w\s)]/, '')
 		if @encryption.save
 			render 'index'
 		else
