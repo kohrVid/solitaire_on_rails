@@ -1,0 +1,31 @@
+<div class = "wrapper">
+	<div class = "col-md-6">
+		<%= form_for :encryption, :url => {:action => "create", :id => @encryption, :protocol => "https"} do |f| %>
+			<table>
+				<tr>
+					<th>
+						<%= f.label :message %>
+					</th>
+					<th>
+						<%= f.label :keystream %>
+					</th>
+
+				</tr>
+				<tr>
+					<td class = "col-md-5">
+						<%= f.text_area :message, rows: 5 %>
+					</td>
+					<td class = "col-md-5">
+						<%= f.text_area :keystream, rows: 5 %>
+					</td>
+				</tr>
+	
+			</table>
+			<br />
+			<%= f.submit "Submit", :reload => true, class: "btn btn-success" %>
+		<%end%>
+	</div>
+	<div class = "col-md-6">
+		<%= render 'encryptions/show' %>
+	</div>
+</div>
