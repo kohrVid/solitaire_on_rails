@@ -1,0 +1,32 @@
+<div class = "wrapper">
+	<div class = "col-md-6">
+		<%= render 'layouts/alerts' %>
+		<%= form_for :decryption, :url => {:action => "create", :id => @decryption, :protocol => "https"} do |f| %>
+			<table>
+				<tr>
+					<th>
+						<%= f.label :code %>
+					</th>
+					<th>
+						<%= f.label :keystream %>
+					</th>
+
+				</tr>
+				<tr>
+					<td class = "col-md-5">
+						<%= f.text_area :code, rows: 5 %>
+					</td>
+					<td class = "col-md-5">
+						<%= f.text_area :keystream, rows: 5 %>
+					</td>
+				</tr>
+	
+			</table>
+			<br />
+			<%= f.submit "Submit", :reload => true, class: "btn btn-success" %>
+		<%end%>
+	</div>
+	<div class = "col-md-6">
+		<%= render 'decryptions/show' %>
+	</div>
+</div>
